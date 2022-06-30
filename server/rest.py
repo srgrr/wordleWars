@@ -41,7 +41,7 @@ def delete_user():
     abort(501, 'User features still not available')
 
 
-@app.route('/user/confirm/<token:str>', methods=['POST'])
+@app.route('/user/confirm/<string:token>', methods=['POST'])
 def confirm_user(token):
     """Confirm a user registration/deletion action
     :param token: Confirmation token
@@ -53,7 +53,7 @@ def confirm_user(token):
     abort(501, 'User features still not available')
 
 
-@app.route('/user/recover_token/<email:str>', methods=['GET'])
+@app.route('/user/recover_token/<string:email>', methods=['GET'])
 def recover_token(email):
     """Send the player token corresponding to the given email (if any)
     :param email: email address
@@ -64,7 +64,7 @@ def recover_token(email):
     abort(501, 'User features still not available')
 
 
-@app.route('/user/game/<game_id:str>', methods=['GET'])
+@app.route('/user/game/<string:game_id>', methods=['GET'])
 def get_game(game_id):
     """Return a JSON with the specified game
     :param game_id: Game id
@@ -78,7 +78,7 @@ def get_game(game_id):
     pass
 
 
-@app.route('/user/games/<player_token:str>', methods=['GET'])
+@app.route('/user/games/<string:player_token>', methods=['GET'])
 def get_game_history(player_token):
     """Return the whole game history for a player
     :param player_token: Player token
@@ -95,7 +95,7 @@ def get_game_history(player_token):
     pass
 
 
-@app.route('/user/game/stats/<player_token:str>', methods=['GET'])
+@app.route('/user/game/stats/<string:player_token>', methods=['GET'])
 def get_user_game_stats(player_token):
     """Return some stats for the given game
     :param player_token: Player token
@@ -106,7 +106,7 @@ def get_user_game_stats(player_token):
     pass
 
 
-@app.route('/game/start/<player_token:str>', methods=['POST'])
+@app.route('/game/start/<string:player_token>', methods=['POST'])
 def start_new_game(player_token):
     """Start a new game, payload must be a JSON
     {
@@ -121,7 +121,7 @@ def start_new_game(player_token):
     pass
 
 
-@app.route('/game/play/<player_token:str>/<game_id:str>', methods=['PUT'])
+@app.route('/game/play/<string:player_token>/<string:game_id>', methods=['PUT'])
 def play_game(player_token, game_id):
     """Play a turn in the player's current game, payload must be a JSON
     {
@@ -137,7 +137,7 @@ def play_game(player_token, game_id):
     pass
 
 
-@app.route('/game/stop/<player_token:str>/<game_id:str>', methods=['DELETE'])
+@app.route('/game/stop/<string:player_token>/<string:game_id>', methods=['DELETE'])
 def delete_game(player_token, game_id):
     """Delete a game for a given user
     :param player_token: Player token
@@ -147,3 +147,6 @@ def delete_game(player_token, game_id):
         - 200 (OK) if managed to correctly delete the game
     """
     pass
+
+
+app.run()
