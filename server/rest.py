@@ -1,5 +1,6 @@
 from flask import Flask, abort
 
+
 app = Flask(__name__)
 
 
@@ -147,6 +148,3 @@ def delete_game(player_token, game_id):
         - 200 (OK) if managed to correctly delete the game
     """
     pass
-
-
-app.run()
