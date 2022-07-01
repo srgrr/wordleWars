@@ -1,5 +1,7 @@
 import argparse
 import subprocess
+import redis
+import socket
 
 
 def parse_args():
@@ -12,16 +14,54 @@ def parse_args():
         default=3306,
         help='MySQL Port'
     )
+    parser.add_argument(
+        '--redis-port',
+        type=int,
+        default=6379,
+        help='Redis Port'
+    )
+    parser.add_argument(
+        '--redis-insight-port',
+        type=int,
+        default=8001,
+        help='Redis Insight Port'
+    )
+    parser.add_argument(
+        '--words-file',
+        type=str,
+        default='english-words/words_alpha.txt',
+        help='Path to file with words'
+    )
     return parser.parse_args()
 
 
-def main(mysql_port):
+def _create_mysql_schema(mysql_port):
+    pass
+
+
+def _load_words_to_redis(redis_port, words_file):
+    redis_client = redis.Redis(
+        connection_pool=redis.ConnectionPool(
+            host=socket.gethostbyname(socket.gethostname()),
+            port=redis_port
+        )
+    )
+    # you should see this entry using redisInsight
+    redis_client.rpush('key', 'value1')
+    redis_client.rpush('key', 'value2')
+
+
+def main(mysql_port, redis_port, redis_insight_port, words_file):
     subprocess.call(
         [
             './run_db_containers.sh',
-            f'{mysql_port}'
+            f'{mysql_port}',
+            f'{redis_port}',
+            f'{redis_insight_port}'
         ]
     )
+    _create_mysql_schema(mysql_port)
+    _load_words_to_redis(redis_port, words_file)
 
 
 if __name__ == '__main__':
