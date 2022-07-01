@@ -1,3 +1,6 @@
 [submodule "wordle-list"]
 	path = dev/wordle-list
 	url = https://github.com/tabatkins/wordle-list.git
+[submodule "dev/english-words"]
+	path = dev/english-words
+	url = https://github.com/dwyl/english-words.git
