@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument(
         '--words-file',
         type=str,
-        default='english-words/words_alpha.txt',
+        default='test_words.txt',
         help='Path to file with words'
     )
     return parser.parse_args()

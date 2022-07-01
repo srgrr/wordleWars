@@ -1,0 +1,10 @@
+pie
+pies
+cat
+cats
+dog
+dogs
+tree
+trees
+clock
+clocks
