@@ -17,11 +17,20 @@ def get_arg_parser():
         default=5000,
         help='Server port'
     )
+    parser.add_argument(
+        '--debug',
+        action='store_true',
+        help='Enable debug mode'
+    )
     return parser
 
 
-def main(host, port):
-    app.run(host=host, port=port)
+def main(host, port, debug):
+    if debug:
+        app.run(host=host, port=port)
+    else:
+        from waitress import serve
+        serve(app, host=host, port=port)
 
 
 if __name__ == '__main__':
