@@ -108,13 +108,23 @@ def get_user_game_stats(player_token):
     pass
 
 
+@app.route('/game/list_word_lists', methods=['GET'])
+def list_word_lists():
+    """List the available word lists to play the game
+    :return:
+        - 200 (OK) + JSON with a list containing the names of the available word lists
+    """
+    pass
+
+
 @app.route('/game/start/<string:player_token>', methods=['POST'])
 def start_new_game(player_token):
     """Start a new game, payload must be a JSON
     {
-        'word_length': int,
+        'word_list': int,
         'max_guesses': int
     }
+    word_list must be one of the word lists returned in list_word_lists
     :param player_token: Player token
     :return:
         - 400 (Bad Request) if player_token or word_length are not valid
