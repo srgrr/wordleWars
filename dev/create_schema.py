@@ -32,6 +32,11 @@ def parse_args():
         default='test_words.txt',
         help='Path to file with words'
     )
+    parser.add_argument(
+        '--stop-rm-only',
+        action='store_true',
+        help='Only stop and delete already existing containers'
+    )
     return parser.parse_args()
 
 
@@ -51,17 +56,19 @@ def _load_words_to_redis(redis_port, words_file):
     redis_client.rpush('key', 'value2')
 
 
-def main(mysql_port, redis_port, redis_insight_port, words_file):
+def main(mysql_port, redis_port, redis_insight_port, words_file, stop_rm_only):
     subprocess.call(
         [
             './run_db_containers.sh',
             f'{mysql_port}',
             f'{redis_port}',
-            f'{redis_insight_port}'
+            f'{redis_insight_port}',
+            'true' if stop_rm_only else 'false'
         ]
     )
-    _create_mysql_schema(mysql_port)
-    _load_words_to_redis(redis_port, words_file)
+    if not stop_rm_only:
+      _create_mysql_schema(mysql_port)
+      _load_words_to_redis(redis_port, words_file)
 
 
 if __name__ == '__main__':

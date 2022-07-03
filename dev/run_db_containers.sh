@@ -11,15 +11,21 @@ redis_insight_port=$3
 redis_container_name=redis-stack-${redis_port}-${redis_insight_port}
 
 # Stop the previous containers
-docker stop ${mysql_container_name}
-docker stop ${redis_container_name}
+sudo docker stop ${mysql_container_name}
+sudo docker stop ${redis_container_name}
 
 # Reset the docker system
-docker rm ${mysql_container_name}
-docker rm ${redis_container_name}
+sudo docker rm ${mysql_container_name}
+sudo docker rm ${redis_container_name}
+
+# Leave if we were only stopping stuff here
+stop_rm_only=$4
+if [ $stop_rm_only == "true" ]; then
+exit 0
+fi
 
 # MySQL
-docker run \
+sudo docker run \
 --name ${mysql_container_name} \
 -d \
 -p ${mysql_port}:3306 \
@@ -29,7 +35,7 @@ docker run \
 --lower-case-table-names=0
 
 # Redis
-docker run \
+sudo docker run \
 -d --name ${redis_container_name} \
 -p ${redis_port}:${redis_port} \
 -p ${redis_insight_port}:${redis_insight_port} \
