@@ -21,7 +21,7 @@ sudo docker rm ${redis_container_name}
 # Leave if we were only stopping stuff here
 stop_rm_only=$4
 if [ $stop_rm_only == "true" ]; then
-exit 0
+  exit 0
 fi
 
 # MySQL
