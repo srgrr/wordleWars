@@ -51,9 +51,11 @@ def _load_words_to_redis(redis_port, words_file):
             port=redis_port
         )
     )
-    # you should see this entry using redisInsight
-    redis_client.rpush('key', 'value1')
-    redis_client.rpush('key', 'value2')
+    
+    for line in open(words_file):
+        line = line.strip()
+        x = len(line)
+        redis_client.sadd(f'EN-{x}', line)
 
 
 def main(mysql_port, redis_port, redis_insight_port, words_file, stop_rm_only):
