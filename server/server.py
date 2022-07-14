@@ -56,3 +56,5 @@ def main(host, port, debug, log_file):
 if __name__ == '__main__':
     opts = get_arg_parser().parse_args()
     main(**vars(opts))
+else:
+    raise ImportError('This is not a Python Module and it should never be imported!')

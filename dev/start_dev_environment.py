@@ -94,3 +94,5 @@ def main(mysql_port, redis_port, redis_insight_port, words_file, stop_rm_only):
 if __name__ == '__main__':
     opts = parse_args()
     main(**vars(opts))
+else:
+    raise ImportError('This is not a Python Module and it should never be imported!')
