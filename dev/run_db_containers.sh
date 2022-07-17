@@ -41,4 +41,3 @@ docker run \
 -p ${redis_insight_port}:${redis_insight_port} \
 redis/redis-stack:latest
 
-# TODO CREATE MYSQL SCHEMA

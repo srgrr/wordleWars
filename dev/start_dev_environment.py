@@ -38,6 +38,11 @@ def parse_args():
         action='store_true',
         help='Only stop and delete already existing containers'
     )
+    parser.add_argument(
+        '--schema-only',
+        action='store_true',
+        help='Only perform create schema'
+    )
     return parser.parse_args()
 
 
@@ -71,19 +76,20 @@ def _configure_logger():
     logging.basicConfig(**args)
 
 
-def main(mysql_port, redis_port, redis_insight_port, words_file, stop_rm_only):
+def main(mysql_port, redis_port, redis_insight_port, words_file, stop_rm_only, schema_only):
     _configure_logger()
-    stop_rm_only_val = 'true' if stop_rm_only else 'false'
-    logging.debug(f'Calling ./run_db_containers.sh {mysql_port} {redis_port} {redis_insight_port} {stop_rm_only_val}')
-    subprocess.call(
+    if not schema_only:
+      stop_rm_only_val = 'true' if stop_rm_only else 'false'
+      logging.warning(f'Calling ./run_db_containers.sh {mysql_port} {redis_port} {redis_insight_port} {stop_rm_only_val}')
+      subprocess.call(
         [
-            './run_db_containers.sh',
-            f'{mysql_port}',
-            f'{redis_port}',
-            f'{redis_insight_port}',
-            stop_rm_only_val
+          './run_db_containers.sh',
+          f'{mysql_port}',
+          f'{redis_port}',
+          f'{redis_insight_port}',
+          stop_rm_only_val
         ]
-    )
+      )
     if not stop_rm_only:
         logging.debug('Creating MySQL schema...')
         _create_mysql_schema(mysql_port)
